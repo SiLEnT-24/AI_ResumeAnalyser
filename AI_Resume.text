@@ -17,3 +17,6 @@ skills:
 newskills:
 Interview ques:
 project:
+
+pip install flask sqlalchemy pymsql openai pyPDF2 python-docx
+ 
