@@ -38,5 +38,16 @@ def signup():
 
         return redirect("/login")
 
+    return render_template("signup.html")
+
+#Login
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    db = SessionLocal()
+
+    if request.method == "POST":
+        email = request.form.get(email)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
