@@ -20,7 +20,23 @@ def home():
 
 #--SignUp
 
-@a
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    db = SessionLocal()
+
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        existing_user = db.query(models.User).filter_by(email=email).first
+        if existing_user:
+            return "User already exits"
+
+        user = models.User(email=email, password=password)
+        db.add(user)
+        db.commit()
+
+        return redirect("/login")
 
 if __name__ == "__main__":
     app.run(debug=True)
