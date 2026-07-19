@@ -28,7 +28,7 @@ def signup():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        existing_user = db.query(models.User).filter_by(email=email).first
+        existing_user = db.query(models.User).filter_by(email=email).first()
         if existing_user:
             return "User already exits"
 
@@ -46,7 +46,18 @@ def login():
     db = SessionLocal()
 
     if request.method == "POST":
-        email = request.form.get(email)
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        user = db.query(models.User).filter_by(email=email, password=password).first()
+
+        if user:
+            session["user"] = user.email
+            return redirect("/dahboard")
+        else:
+            return "Invalid credentails"
+
+    return render_template("login.html")
 
 
 if __name__ == "__main__":
