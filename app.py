@@ -1,8 +1,12 @@
-from flask import Flask, render_templates, request, redirect, session
-from db import Base, engine, SessionLocal 
+from flask import Flask, render_template, request, redirect, session
+from db import Base, engine, SessionLocal
+from ai import analyze_resume
+from dotenv import load_dotenv
+
+load_dotenv()
 
 import models
-import pyPDF2
+import PyPDF2
 import docx
 import json
 
@@ -53,7 +57,7 @@ def login():
 
         if user:
             session["user"] = user.email
-            return redirect("/dahboard")
+            return redirect("/dashboard")
         else:
             return "Invalid credentails"
 
@@ -65,26 +69,25 @@ def dashboard():
     if "user" not in session:
         return redirect("/login")
 
-        return=None
+    result = None
+    if request.method == "POST":
+        user_goal = request.form.get("role")
+        resume_text = request.form.get("resume")
 
-if request.method == "POST":
-    user_goal = request.form.get("role")
-    resume_text = request.form.get("resume")
+        file = request.files.get("file")
 
-    file = request.files.get("file")
-
-    #file handling
-    if file and filename.endswith(".pdf"):
-        try:
-            pdf_reader = PyPDF2.PdfReader(file)
-            text = ""
-            for page in pdf_reader.pages:
-                text += pages.extract_text() or ""
+        # file handling
+        if file and file.filename.endswith(".pdf"):
+            try:
+                pdf_reader = PyPDF2.PdfReader(file)
+                text = ""
+                for page in pdf_reader.pages:
+                    text += page.extract_text() or ""
                 resume_text = text
             except Exception as e:
                 result = {"error": f"PDF error: {str(e)}"}
 
-        elif file.filename.endswith(".docx"):
+        elif file and file.filename.endswith(".docx"):
             try:
                 doc = docx.Document(file)
                 text = ""
@@ -92,32 +95,32 @@ if request.method == "POST":
                     text += para.text + "\n"
                 resume_text = text
             except Exception as e:
-                result = {"error:" f"Docx error: {str(e)}"}
+                result = {"error": f"Docx error: {str(e)}"}
 
-    if resume_text and user_goal:
-        try:
-            result = analyze_resume(resume_text, user_goal)
+        if resume_text and user_goal:
+            try:
+                result = analyze_resume(resume_text, user_goal)
 
-            #save to db
-            db = SesssionLocal()
-            user = db.query(models.User).filter_by(email=session["user"]).first()
+                # save to db
+                db = SessionLocal()
+                user = db.query(models.User).filter_by(email=session["user"]).first()
 
-            report  = models.Report(
-                user_id = user.id,
-                resume_text = resume_text,
-                results = json.dumps(result) 
-            )
+                report = models.Reports(
+                    user_id=user.id,
+                    resume_text=resume_text,
+                    result=json.dumps(result)
+                )
 
-            db.add(report)
-            db.commit()
+                db.add(report)
+                db.commit()
 
-        except Exception as e:
-            result = {"error": f"AI error: {str(e)}"}
-        
+            except Exception as e:
+                result = {"error": f"AI error: {str(e)}"}
+
     return render_template(
         "dashboard.html",
         user=session["user"],
-        result = result
+        result=result
     )
 
 #History
@@ -125,26 +128,24 @@ if request.method == "POST":
 def history():
     if "user" not in session:
         return redirect("/login")
+
     db = SessionLocal()
-    user = db.query(models.User).filter_by(email = session["user"]).first()
+    user = db.query(models.User).filter_by(email=session["user"]).first()
+    reports = db.query(models.Reports).filter_by(user_id=user.id).all()
 
-    reports = db.query(models.Report).filter_by(user_id = userid).all()
-
-    #convert JSON String>dict
-
-    pasred_report = []
+    parsed_reports = []
     for r in reports:
         try:
-            pasred_reports = json.loads(r.result)
-        except:
-            pasred_result = []
+            parsed_result = json.loads(r.result)
+        except Exception:
+            parsed_result = {}
 
-        pasred_reports.append({
+        parsed_reports.append({
             "resume": r.resume_text,
-            "result": pasred_result
+            "result": parsed_result
         })
 
-        return render_template("history.html", reports=pasred_reports)
+    return render_template("history.html", reports=parsed_reports)
 
 #logout route
 @app.route("/logout")

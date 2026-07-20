@@ -19,40 +19,54 @@
 
 <div class="red">
     {% if result.error %}
-    <p style="color: red;">Error: {{result.error}}</p>
+    <p style="color: red;">Error: {{ result.error }}</p>
 
-    {% end if %}
+    {% endif %}
 
     <h3>Skills</h3>
-    <ul>
-        {% for s in result.get("Skills",[]) %}
-        <li>{{ s }}</li>
+    <div class="tag-list">
+        {% for s in result.get("skills",[]) %}
+        <span class="tag tag-skill">{{ s }}</span>
         {%endfor%}
-    </ul>
+    </div>
 
     <h3>Missing Skills</h3>
-    <ul>
-        {% for s in result.get("Missing_skills",[]) %}
-        <li>{{ s }}</li>
+    <div class="tag-list">
+        {% for s in result.get("missing_skills",[]) %}
+        <span class="tag tag-missing">{{ s }}</span>
         {%endfor%}
-    </ul>
+    </div>
 
     <h3>Roadmap</h3>
-    <ul>
-        {% for s in result.get("Roadmap",[]) %}
-        <li>{{ s }}</li>
+    <ol>
+        {% for s in result.get("roadmap",[]) %}
+        <li class="roadmap-item">
+            <strong>{{ s.step if s.step is defined else s }}</strong>
+            {% if s.resources is defined and s.resources %}
+            <ul class="resources-list">
+                {% for r in s.resources %}
+                <li>{{ r }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
         {%endfor%}
-    </ul>
+    </ol>
 
     <h3>Interview Questions List</h3>
-    <ul>
+    <ol>
         {% for s in result.get("interview_questions",[]) %}
-        <li>{{ s }}</li>
-        {%endfor%}
-    </ul>
+        <li class="interview-item">
+            <strong>{{ s.question if s.question is defined else s }}</strong>
+            {% if s.tip is defined and s.tip %}
+            <p class="interview-tip">💡 {{ s.tip }}</p>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ol>
 
 </div>
 
-{% endfor %}
+{% endif %}
 
 {% endblock %}

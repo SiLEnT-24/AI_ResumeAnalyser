@@ -1,43 +1,127 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Your history</h2>
-{% for r in reports %}
-<div class="card">
-    <p><strong>Resume Preview:</strong></p>
-    <p>{{ r.resume[:150] }}</p>
-
-    <hr>
-
-    <h3>Skills</h3>
-    <ul>
-        {% for s in result.get("Skills",[]) %}
-        <li>{{ s }}</li>
-        {%endfor%}
-    </ul>
-
-    <h3>Missing Skills</h3>
-    <ul>
-        {% for s in result.get("Missing_skills",[]) %}
-        <li>{{ s }}</li>
-        {%endfor%}
-    </ul>
-
-    <h3>Roadmap</h3>
-    <ul>
-        {% for s in result.get("Roadmap",[]) %}
-        <li>{{ s }}</li>
-        {%endfor%}
-    </ul>
-
-    <h3>Interview Questions List</h3>
-    <ul>
-        {% for s in result.get("interview_questions",[]) %}
-        <li>{{ s }}</li>
-        {%endfor%}
-    </ul>
-
+<div class="history-header">
+    <h2>📋 Your Analysis History</h2>
+    <p class="history-count">{{ reports|length }} report{{ 's' if reports|length != 1 else '' }} found</p>
 </div>
+
+{% if not reports %}
+<div class="empty-state">
+    <div class="empty-icon">📄</div>
+    <h3>No history yet</h3>
+    <p>Analyse your first resume to see results here.</p>
+    <a href="/dashboard" class="btn-primary">Go to Dashboard</a>
+</div>
+{% endif %}
+
+{% for r in reports %}
+<div class="history-card">
+
+    <!-- Report Header -->
+    <div class="report-header">
+        <div class="report-badge">Report #{{ loop.index }}</div>
+        <button class="toggle-btn" onclick="toggleReport(this)">▼ Collapse</button>
+    </div>
+
+    <!-- Resume Preview -->
+    <div class="resume-preview-card">
+        <div class="resume-preview-header">
+            <span class="rp-icon">📄</span>
+            <div>
+                <div class="rp-title">Resume Preview</div>
+                <div class="rp-meta">{{ r["resume"]|length }} characters</div>
+            </div>
+        </div>
+        <div class="rp-chips">
+            {% if "@" in r["resume"] %}
+            <span class="rp-chip rp-chip-email">✉️ Email detected</span>
+            {% endif %}
+            {% if "github" in r["resume"]|lower %}
+            <span class="rp-chip rp-chip-github">🐙 GitHub detected</span>
+            {% endif %}
+            {% if "linkedin" in r["resume"]|lower %}
+            <span class="rp-chip rp-chip-linkedin">🔗 LinkedIn detected</span>
+            {% endif %}
+        </div>
+        <p class="rp-body">{{ r["resume"][:300] }}{% if r["resume"]|length > 300 %}<span class="rp-fade">…</span>{% endif %}</p>
+    </div>
+
+    <div class="report-body">
+
+        <!-- Skills -->
+        <div class="section-block">
+            <h4 class="section-title skills-title">✅ Skills</h4>
+            <div class="tag-list">
+                {% for s in r.result.get("skills", []) %}
+                <span class="tag tag-skill">{{ s }}</span>
+                {% endfor %}
+                {% if not r.result.get("skills") %}
+                <span class="empty-label">No skills found</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Missing Skills -->
+        <div class="section-block">
+            <h4 class="section-title missing-title">⚠️ Missing Skills</h4>
+            <div class="tag-list">
+                {% for s in r.result.get("missing_skills", []) %}
+                <span class="tag tag-missing">{{ s }}</span>
+                {% endfor %}
+                {% if not r.result.get("missing_skills") %}
+                <span class="empty-label">None — great job!</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Roadmap -->
+        <div class="section-block">
+            <h4 class="section-title roadmap-title">🗺️ Roadmap</h4>
+            <ol class="section-list">
+                {% for s in r.result.get("roadmap", []) %}
+                <li class="roadmap-item">
+                    <strong>{{ s.step if s.step is defined else s }}</strong>
+                    {% if s.resources is defined and s.resources %}
+                    <ul class="resources-list">
+                        {% for res in s.resources %}
+                        <li>{{ res }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <!-- Interview Questions -->
+        <div class="section-block">
+            <h4 class="section-title interview-title">🎤 Interview Questions</h4>
+            <ol class="section-list">
+                {% for s in r.result.get("interview_questions", []) %}
+                <li class="interview-item">
+                    <strong>{{ s.question if s.question is defined else s }}</strong>
+                    {% if s.tip is defined and s.tip %}
+                    <p class="interview-tip">💡 {{ s.tip }}</p>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+
+    </div><!-- /.report-body -->
+</div><!-- /.history-card -->
 {% endfor %}
+
+<script>
+function toggleReport(btn) {
+    const body = btn.closest('.history-card').querySelector('.report-body');
+    const preview = btn.closest('.history-card').querySelector('.resume-preview-card');
+    const collapsed = body.style.display === 'none';
+    body.style.display = collapsed ? 'block' : 'none';
+    preview.style.display = collapsed ? 'block' : 'none';
+    btn.textContent = collapsed ? '▼ Collapse' : '▶ Expand';
+}
+</script>
 
 {% endblock %}

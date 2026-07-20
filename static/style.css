@@ -1,0 +1,554 @@
+/* ============================
+   AI Career Copilot — Styles
+   ============================ */
+
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --primary-light: #eef2ff;
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #1f2333;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(17, 24, 39, 0.06);
+  --shadow-hover: 0 8px 24px rgba(17, 24, 39, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.container,
+.conatiner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- Header / Nav ---------- */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+header nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  padding: 16px 0;
+}
+
+header nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 4px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+header nav a:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* ---------- Main / Layout ---------- */
+main {
+  padding: 40px 20px;
+  min-height: calc(100vh - 140px);
+}
+
+main h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* ---------- Card ---------- */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+  margin-bottom: 24px;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--primary-dark);
+}
+
+.card hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+.card ul {
+  padding-left: 20px;
+  margin: 8px 0 20px;
+}
+
+.card li {
+  margin-bottom: 6px;
+}
+
+/* Results wrapper */
+.red {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+  margin-top: 24px;
+}
+
+/* ---------- Forms ---------- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input:not([type="submit"]) {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+input[type="file"] {
+  padding: 8px 0;
+  border: none;
+  background: transparent;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+button,
+form button[type="submit"] {
+  align-self: flex-start;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background: var(--primary-dark);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* ---------- Auth Pages (Login / Signup) ---------- */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.auth-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-card h2 {
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+
+.sub-text,
+.subtext {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+.auth-card form {
+  text-align: left;
+}
+
+.auth-links {
+  margin-top: 12px;
+}
+
+.auth-links a,
+.switch-auth a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-links a:hover,
+.switch-auth a:hover {
+  text-decoration: underline;
+}
+
+.switch-auth {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+/* ---------- Utility ---------- */
+p[style*="color: red"] {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+/* ---------- Roadmap ---------- */
+ol {
+  padding-left: 20px;
+  margin: 8px 0 20px;
+}
+
+.roadmap-item {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  background: var(--primary-light);
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+}
+
+.roadmap-item strong {
+  display: block;
+  font-size: 0.97rem;
+  color: var(--primary-dark);
+  margin-bottom: 6px;
+}
+
+.resources-list {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+}
+
+.resources-list li {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+/* ---------- Skill Tags ---------- */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 20px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.tag-skill {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.tag-missing {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+/* ---------- Interview Questions ---------- */
+.interview-item {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  background: #fefce8;
+  border-left: 4px solid #eab308;
+  border-radius: 8px;
+}
+
+.interview-item strong {
+  display: block;
+  font-size: 0.97rem;
+  color: #854d0e;
+  margin-bottom: 6px;
+}
+
+.interview-tip {
+  margin: 6px 0 0;
+  font-size: 0.88rem;
+  color: #92400e;
+  background: #fef3c7;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* ---------- History Page ---------- */
+.history-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.history-count {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.history-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.history-card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.report-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+}
+
+.report-badge {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+.toggle-btn {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  align-self: auto;
+}
+
+.toggle-btn:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+.resume-preview-card {
+  margin: 0 24px 0;
+  padding: 16px 20px;
+  background: var(--primary-light);
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.resume-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.rp-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.rp-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--primary-dark);
+}
+
+.rp-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.rp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.rp-chip {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.rp-chip-email   { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+.rp-chip-github  { background: #f3f4f6; color: #111827; border: 1px solid #d1d5db; }
+.rp-chip-linkedin { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+
+.rp-body {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.rp-fade {
+  color: var(--primary);
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+.report-body {
+  padding: 20px 24px;
+}
+
+.section-block {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.skills-title    { background: #dcfce7; color: #15803d; }
+.missing-title   { background: #fef2f2; color: #b91c1c; }
+.roadmap-title   { background: var(--primary-light); color: var(--primary-dark); }
+.interview-title { background: #fefce8; color: #854d0e; }
+
+.section-list {
+  padding-left: 20px;
+  margin: 8px 0 0;
+}
+
+.empty-label {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ---------- Empty State ---------- */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.btn-primary {
+  display: inline-block;
+  margin-top: 16px;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+
+@media (max-width: 600px) {
+  header nav {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .card,
+  .red,
+  .auth-card {
+    padding: 20px;
+  }
+
+  main {
+    padding: 24px 16px;
+  }
+}
