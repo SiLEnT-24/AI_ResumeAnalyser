@@ -83,7 +83,16 @@ if request.method == "POST":
                 resume_text = text
             except Exception as e:
                 result = {"error": f"PDF error: {str(e)}"}
-                
+
+        elif file.filename.endswith(".docx"):
+            try:
+                doc = docx.Document(file)
+                text = ""
+                for para in doc.paragraphs:
+                    text += para.text + "\n"
+                resume_text = text
+            except Exception as e:
+                result = {"error:" f"Docx error: {str(e)}"}
 
 if __name__ == "__main__":
 
