@@ -130,8 +130,21 @@ def history():
 
     reports = db.query(models.Report).filter_by(user_id = userid).all()
 
-    #convert JSON String
+    #convert JSON String>dict
 
+    pasred_report = []
+    for r in reports:
+        try:
+            pasred_reports = json.loads(r.result)
+        except:
+            pasred_result = []
+
+        pasred_reports.append({
+            "resume": r.resume_text,
+            "result": pasred_result
+        })
+
+        return render_template("history.html", reports=pasred_reports)
 
 if __name__ == "__main__":
 
