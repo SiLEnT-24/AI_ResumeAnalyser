@@ -94,6 +94,10 @@ if request.method == "POST":
             except Exception as e:
                 result = {"error:" f"Docx error: {str(e)}"}
 
+    if resume_text and user_goal:
+        try:
+            result = analyze_resume(resume_text, user_goal)
+
 if __name__ == "__main__":
 
     app.run(debug=True)
