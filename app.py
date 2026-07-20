@@ -59,6 +59,32 @@ def login():
 
     return render_template("login.html")
 
+#Dashboard
+@app.route("/dashboard", methods=["GET","POST"])
+def dashboard():
+    if "user" not in session:
+        return redirect("/login")
+
+        return=None
+
+if request.method == "POST":
+    user_goal = request.form.get("role")
+    resume_text = request.form.get("resume")
+
+    file = request.files.get("file")
+
+    #file handling
+    if file and filename.endswith(".pdf"):
+        try:
+            pdf_reader = PyPDF2.PdfReader(file)
+            text = ""
+            for page in pdf_reader.pages:
+                text += pages.extract_text() or ""
+                resume_text = text
+            except Exception as e:
+                result = {"error": f"PDF error: {str(e)}"}
+                
 
 if __name__ == "__main__":
+
     app.run(debug=True)
