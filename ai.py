@@ -42,4 +42,18 @@ Resume:
         ]
     )
 
-    content = response.choice[0]
+    content = response.choice[0].messege.content.strip()
+
+    start = content.find("{")
+    end = content.rfind("}")+1
+
+    return json.loads(content[start:end])
+
+except Exception as e:
+    return {
+        "skills":[],
+        "missing_skills":[],
+        "roadmap":[],
+        "interview_questions":[],
+        "error":str(e)
+    }
