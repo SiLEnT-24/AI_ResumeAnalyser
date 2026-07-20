@@ -146,6 +146,13 @@ def history():
 
         return render_template("history.html", reports=pasred_reports)
 
+#logout route
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect("/login")
+
+
 if __name__ == "__main__":
 
     app.run(debug=True)
