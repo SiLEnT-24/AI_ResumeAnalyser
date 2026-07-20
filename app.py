@@ -113,7 +113,25 @@ if request.method == "POST":
 
         except Exception as e:
             result = {"error": f"AI error: {str(e)}"}
-    
+        
+    return render_template(
+        "dashboard.html",
+        user=session["user"],
+        result = result
+    )
+
+#History
+@app.route("/history")
+def history():
+    if "user" not in session:
+        return redirect("/login")
+    db = SessionLocal()
+    user = db.query(models.User).filter_by(email = session["user"]).first()
+
+    reports = db.query(models.Report).filter_by(user_id = userid).all()
+
+    #convert JSON String
+
 
 if __name__ == "__main__":
 
