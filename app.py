@@ -98,6 +98,23 @@ if request.method == "POST":
         try:
             result = analyze_resume(resume_text, user_goal)
 
+            #save to db
+            db = SesssionLocal()
+            user = db.query(models.User).filter_by(email=session["user"]).first()
+
+            report  = models.Report(
+                user_id = user.id,
+                resume_text = resume_text,
+                results = json.dumps(result) 
+            )
+
+            db.add(report)
+            db.commit()
+
+        except Exception as e:
+            result = {"error": f"AI error: {str(e)}"}
+    
+
 if __name__ == "__main__":
 
     app.run(debug=True)
